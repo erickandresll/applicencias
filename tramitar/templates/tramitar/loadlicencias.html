@@ -1,0 +1,61 @@
+{% extends 'tramitar/index.html' %}
+
+{% block content %}
+
+
+    <h2>Carga licencias</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="archivo_csv">
+        <button type="submit">Cargar</button>
+    </form>
+
+    <hr>
+
+    {% if datos_guardados %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Folio</th>
+                    <th>Run</th>
+                    <th>Fecha emision</th>
+                    <th>Fecha inicio</th>
+                    <th>Días</th>
+                    <th>Tipo licencia</th>
+                    <th>Tipo reposo</th>
+                    <th>Run profesional</th>
+                    <th>Nombre profesional</th>
+                    <th>Apellido profesional</th>
+                    <th>Tipo profesional</th>
+                    <th>Especialidad</th>
+                    <th>Cotizante</th>
+
+            </thead>
+            <tbody>
+                {% for dato in datos_guardados %}
+                    <tr>
+                        <td>{{ dato.folio }}</td>
+                        <td>{{ dato.run }}</td>
+                        <td>{{ dato.fecha_emision }}</td>
+                        <td>{{ dato.fecha_inicio }}</td>
+                        <td>{{ dato.dias }}</td>
+                        <td>{{ dato.tipo_licencia }}</td>
+                        <td>{{ dato.tipo_repo }}</td>
+                        <td>{{ dato.run_profesional }}</td>
+                        <td>{{ dato. }}</td>
+                        <td>{{ dato.tipo_repo }}</td>
+                        <td>{{ dato.run_profesional }}</td>
+                        <td>{{ dato.nombre_profesional }}</td>
+                        <td>{{ dato.apellido_profesional }}</td>
+                        <td>{{ dato.tipo_profesional }}</td>
+                        <td>{{ dato.especialidad }}</td>
+                        <td>{{ dato.cotizante }}</td>
+
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends 'tramitar/index.html' %}
+{% load custom_filters %}
+
+{% block content %}
+
+<body>
+    <div class="container mt-8">
+
+        <button class="btn btn-primary mt-3 float-left" onclick="copyTableToClipboard()">Copiar Tabla</button>
+
+        {% if resultados %}
+            <h2>Resultados:</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Folio</th>
+                            <th>RUT</th>
+                            <th>Nombre</th>
+                            <th>Fecha inicio</th>
+                            <th>Fecha término</th>
+                            <th>Monto</th>
+                            <th>Forma de pago</th>
+                            <th>Banco</th>
+                            <th>Cta.Cte</th>
+                            <th>CC</th>
+                            <th>Horas</th>
+                            <th>Programa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for resultado in resultados %}
+                            <tr>
+                                <td>{{ resultado.FOLIO }}</td>
+                                <td>{{ resultado.RUT }}</td>
+                                <td>{{ resultado.NOMBRE }}</td>
+                                <td>{{ resultado|get_item:'FEC INICIO'|date:"d/m/Y" }}</td>
+                                <td>{{ resultado|get_item:'FEC TERMINO'|date:"d/m/Y" }}</td>
+                                <td>{{ resultado.MONTO }}</td>
+                                <td>{{ resultado|get_item:'FORMA_DE_PAGO'}}</td>
+                                <td>{{ resultado.BANCO }}</td>
+                                <td>{{ resultado.CTA.CTE }}</td>
+                                <td>{{ resultado.CC }}</td>
+                                <td>{{ resultado.HORAS }}</td>
+                                <td>{{ resultado.PROGRAMA }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        {% endif %}
+
+        {% if diferencias %}
+            <h2>Diferencias:</h2>
+            <ul>
+                {% for diferencia in diferencias %}
+                    <li>{{ diferencia }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</body>
+
+<script>
+    function copyTableToClipboard() {
+        // Seleccionar la tabla
+        const table = document.querySelector('.table');
+
+        // Crear un rango de selección
+        const range = document.createRange();
+        range.selectNode(table);
+
+        // Seleccionar el contenido y copiar al portapapeles
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        document.execCommand('copy');
+        window.getSelection().removeAllRanges();
+
+        // Alerta o mensaje de éxito (opcional)
+        alert('¡Tabla copiada al portapapeles!');
+    }
+</script>
+
+{% endblock %}
+
